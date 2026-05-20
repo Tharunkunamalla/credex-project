@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# StackSpend — AI Spend Audit
 
-## Getting Started
+StackSpend is a free, high-converting spend audit tool built for startup founders and engineering managers to analyze their team's AI subscriptions. It scans their software stack, identifies overspending, suggests optimal downgrades/replacements, and calculates potential monthly and annual savings, acting as a lead-generation tool for Credex's discounted AI credits.
 
-First, run the development server:
+---
+
+## Quick Start
+
+### Installation
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/Tharunkunamalla/credex-project.git
+cd credex-project
+npm install --legacy-peer-deps
+```
+
+### Local Development
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Testing
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Run the test suite with Vitest:
 
-## Learn More
+```bash
+npx vitest run
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Decisions & Technical Trade-offs
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Deterministic Business Rules vs. LLM for Auditing**
+   - *Trade-off*: We used hardcoded, pattern-based logic for calculations rather than prompting an LLM.
+   - *Rationale*: A finance officer or engineering manager requires absolute mathematical precision. Using an LLM for calculations introduces non-deterministic outputs, hallucinated savings, and higher latency, whereas hardcoded business rules are fast, defensible, and 100% accurate.
 
-## Deploy on Vercel
+2. **Zustand for Client-Side State and Persistence**
+   - *Trade-off*: Decoupling form state from page routing via a centralized Zustand store with `localStorage` sync.
+   - *Rationale*: If a user accidentally reloads or drops off during the audit inputs, their progress is preserved. This increases completion rates, makes the step-by-step form navigation clean, and avoids global prop-drilling or Next.js router state limits.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **No Auth Lead Generation Flow**
+   - *Trade-off*: Let users perform the complete audit without signing up or entering an email first.
+   - *Rationale*: Email gates before showing value reduce conversion rates. By showing the visual audit and total savings first, we build trust. We then capture the email when they want to save/export the report or schedule a Credex saving consultation.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. **Next.js API Routes over a Separate Backend Service**
+   - *Trade-off*: Processing calculations and LLM summaries inside Next.js API Routes (Serverless) rather than maintaining a separate Express or Go service.
+   - *Rationale*: For a lead-gen product, minimize operational complexity. Serverless API routes scale automatically, handle credentials securely without leaking them to the frontend, and keep the deployment unified on Vercel under a single repository.
+
+5. **Claude API (`claude-3-5-sonnet`) with Templated Fallback**
+   - *Trade-off*: Using Claude to write a human-like, conversational summary of the audit, with a local deterministic template engine fallback.
+   - *Rationale*: Claude generates highly contextualized feedback, but third-party APIs can hit rate limits or downtime. A local template ensures that even if Anthropic is down, the user still receives an audit report immediately.
+
+---
+
+## Deployed URL
+*Deployment Link will be placed here once deployed to Vercel.*
+
+---
+
+## Screenshots / Demo
+*Screenshots/recording link will be updated here during the final polish.*
