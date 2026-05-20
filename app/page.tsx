@@ -7,8 +7,6 @@ import {
   ShieldCheck, 
   ArrowRight, 
   Coins, 
-  Layers, 
-  CheckCircle,
   Zap,
   Users,
   Percent,
@@ -59,7 +57,7 @@ export default function Home() {
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
           Uncover hidden overspend on <br />
           <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-300 bg-clip-text text-transparent">
-            your team's AI tools
+          your team&apos;s AI tools
           </span>
         </h1>
 
