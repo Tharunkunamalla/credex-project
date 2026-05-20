@@ -1,0 +1,71 @@
+{
+  "tools": {
+    "cursor": {
+      "name": "Cursor",
+      "plans": {
+        "hobby": { "name": "Hobby", "pricePerSeat": 0, "minSeats": 1, "isFlatRate": false },
+        "pro": { "name": "Pro", "pricePerSeat": 20, "minSeats": 1, "isFlatRate": false },
+        "business": { "name": "Business", "pricePerSeat": 40, "minSeats": 1, "isFlatRate": false },
+        "enterprise": { "name": "Enterprise", "pricePerSeat": 100, "minSeats": 1, "isFlatRate": false }
+      }
+    },
+    "github_copilot": {
+      "name": "GitHub Copilot",
+      "plans": {
+        "individual": { "name": "Individual", "pricePerSeat": 10, "minSeats": 1, "isFlatRate": false },
+        "business": { "name": "Business", "pricePerSeat": 19, "minSeats": 1, "isFlatRate": false },
+        "enterprise": { "name": "Enterprise", "pricePerSeat": 39, "minSeats": 1, "isFlatRate": false }
+      }
+    },
+    "claude": {
+      "name": "Claude",
+      "plans": {
+        "free": { "name": "Free", "pricePerSeat": 0, "minSeats": 1, "isFlatRate": false },
+        "pro": { "name": "Pro", "pricePerSeat": 20, "minSeats": 1, "isFlatRate": false },
+        "max": { "name": "Max", "pricePerSeat": 100, "minSeats": 1, "isFlatRate": false },
+        "team": { "name": "Team", "pricePerSeat": 30, "minSeats": 5, "isFlatRate": false },
+        "enterprise": { "name": "Enterprise", "pricePerSeat": 75, "minSeats": 1, "isFlatRate": false },
+        "api_direct": { "name": "API Direct", "pricePerSeat": 0, "minSeats": 1, "isFlatRate": true }
+      }
+    },
+    "chatgpt": {
+      "name": "ChatGPT",
+      "plans": {
+        "plus": { "name": "Plus", "pricePerSeat": 20, "minSeats": 1, "isFlatRate": false },
+        "team": { "name": "Team", "pricePerSeat": 30, "minSeats": 2, "isFlatRate": false },
+        "enterprise": { "name": "Enterprise", "pricePerSeat": 60, "minSeats": 1, "isFlatRate": false },
+        "api_direct": { "name": "API Direct", "pricePerSeat": 0, "minSeats": 1, "isFlatRate": true }
+      }
+    },
+    "anthropic_api": {
+      "name": "Anthropic API direct",
+      "plans": {
+        "api": { "name": "API pay-as-you-go", "pricePerSeat": 0, "minSeats": 1, "isFlatRate": true }
+      }
+    },
+    "openai_api": {
+      "name": "OpenAI API direct",
+      "plans": {
+        "api": { "name": "API pay-as-you-go", "pricePerSeat": 0, "minSeats": 1, "isFlatRate": true }
+      }
+    },
+    "gemini": {
+      "name": "Gemini",
+      "plans": {
+        "pro": { "name": "Pro (Gemini Advanced)", "pricePerSeat": 20, "minSeats": 1, "isFlatRate": false },
+        "ultra": { "name": "Ultra (Gemini Business/Enterprise)", "pricePerSeat": 30, "minSeats": 1, "isFlatRate": false },
+        "api": { "name": "API pay-as-you-go", "pricePerSeat": 0, "minSeats": 1, "isFlatRate": true }
+      }
+    },
+    "windsurf": {
+      "name": "Windsurf",
+      "plans": {
+        "free": { "name": "Free", "pricePerSeat": 0, "minSeats": 1, "isFlatRate": false },
+        "pro": { "name": "Pro", "pricePerSeat": 20, "minSeats": 1, "isFlatRate": false },
+        "max": { "name": "Max", "pricePerSeat": 200, "minSeats": 1, "isFlatRate": false },
+        "teams": { "name": "Teams", "pricePerSeat": 40, "minSeats": 2, "isFlatRate": false },
+        "enterprise": { "name": "Enterprise", "pricePerSeat": 100, "minSeats": 1, "isFlatRate": false }
+      }
+    }
+  }
+}
