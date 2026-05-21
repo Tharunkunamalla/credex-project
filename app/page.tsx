@@ -2,12 +2,12 @@
 
 import React from "react";
 import Link from "next/link";
+import SpendForm from "../components/form/spend-form";
 import { 
   TrendingDown, 
   ShieldCheck, 
   ArrowRight, 
   Coins, 
-  Zap,
   Users,
   Percent,
   Sparkles
@@ -202,32 +202,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Target Form Placeholder Section (Audit Section) */}
-      <section id="audit" className="relative z-10 max-w-4xl mx-auto px-6 py-20 border-t border-white/5 text-center">
-        <div className="glass-panel p-12 rounded-3xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500" />
-          <h2 className="text-3xl font-bold mb-4 tracking-tight">Ready to Audit Your Stack?</h2>
-          <p className="text-neutral-400 text-sm max-w-md mx-auto mb-8">
-            Click below to start our quick spend calculator. The interactive form is currently being built for Day 2.
+      {/* Target Form Section */}
+      <section id="audit" className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/5 scroll-mt-20">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">Run Your AI Spend Audit</h2>
+          <p className="text-neutral-400 max-w-xl mx-auto text-sm">
+            Enter your team size, primary use case, and current subscription plan details. We will analyze your inputs against official plans to detect overspend.
           </p>
-          
-          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20 mb-8">
-            <Zap className="w-4 h-4 text-indigo-400" />
-            <span className="text-xs font-semibold text-indigo-300">
-              Form module releasing in next commit
-            </span>
-          </div>
-
-          <div>
-            <button 
-              onClick={() => alert("The spend input form is being wired in our next step. Stay tuned!")}
-              className="px-8 py-4 rounded-xl bg-white text-black hover:bg-neutral-200 font-bold transition-all inline-flex items-center gap-2 shadow-lg"
-            >
-              Start Audit Session
-              <ArrowRight className="w-4 h-4 text-black" />
-            </button>
-          </div>
         </div>
+        <SpendForm />
       </section>
 
       {/* Footer */}

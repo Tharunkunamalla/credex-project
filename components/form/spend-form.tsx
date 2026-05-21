@@ -8,7 +8,6 @@ import {
   Trash2, 
   Sparkles, 
   AlertCircle, 
-  HelpCircle,
   TrendingUp,
   Settings,
   Brain,
@@ -42,11 +41,8 @@ export default function SpendForm() {
   const storeTools = useFormStore((state) => state.tools);
   const storeTeamSize = useFormStore((state) => state.teamSize);
   const storeUseCase = useFormStore((state) => state.useCase);
-  const addStoreTool = useFormStore((state) => state.addTool);
   const setStoreTeamSize = useFormStore((state) => state.setTeamSize);
   const setStoreUseCase = useFormStore((state) => state.setUseCase);
-  const updateStoreTool = useFormStore((state) => state.updateTool);
-  const removeStoreTool = useFormStore((state) => state.removeTool);
 
   // SSR safety
   useEffect(() => {
@@ -131,6 +127,7 @@ export default function SpendForm() {
 
   const onSubmit = async (data: AuditFormInput) => {
     setIsSubmitting(true);
+    console.log("Submitting stack spend data:", data);
     // Simulate submission / API delay for Day 2 loading states
     setTimeout(() => {
       setIsSubmitting(false);
