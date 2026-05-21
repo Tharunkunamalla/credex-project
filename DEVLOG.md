@@ -21,3 +21,26 @@
 - Build the persistent state store using Zustand.
 - Implement the responsive step-by-step Audit Form with validation.
 - Design and code the landing page.
+
+## Day 2 — 2026-05-21
+**Hours worked:** 3
+**What I did:**
+- Built the persistent store using Zustand (`lib/store/form-store.ts`) with `localStorage` state synchronization.
+- Created validation schemas with Zod (`lib/validations/audit.ts`) mapping inputs for tool selections, dynamic plans, seats, and primary workflows.
+- Coded the multi-tool spend audit form component (`components/form/spend-form.tsx`) featuring dynamic subscription cards, prefill spend calculations, and loading state animations.
+- Integrated the interactive spend form onto the primary landing page (`app/page.tsx`), substituting the Day 1 placeholder sections.
+- Verified TypeScript compilation and code health via ESLint (`npx tsc --noEmit` and `npm run lint`).
+- Committed changes and pushed to Github.
+
+**What I learned:**
+- SSR (Server Side Rendering) frameworks like Next.js require careful handling of Zustand store persistence (hydration validation check) to avoid initial server/client mismatches in rendered layouts.
+- Auto-prefilling monthly spends based on retail prices significantly streamlines user onboarding, though we must preserve full custom input overrides.
+
+**Blockers / what I'm stuck on:**
+- None. Ready to move onto Day 3 calculations and audit report visual dashboards.
+
+**Plan for tomorrow:**
+- Build the core audit engine logic (`rules.ts` and `calculations.ts` implementations).
+- Create the results page dashboard (`app/audit/[id]/page.tsx`) mapping savings metrics and customized plan alternatives.
+- Connect results with unique shareable tokens and custom Open Graph metadata.
+
