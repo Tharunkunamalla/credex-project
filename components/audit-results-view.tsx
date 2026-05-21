@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { leadFormSchema, LeadFormInput } from "../lib/validations/audit";
 import { AuditRecord } from "../lib/db-helper";
+import { Recommendation } from "../lib/audit-engine/types";
 
 interface AuditResultsViewProps {
   record: AuditRecord;
@@ -277,7 +278,7 @@ export default function AuditResultsView({ record }: AuditResultsViewProps) {
           </div>
 
           <div className="grid grid-cols-1 gap-4">
-            {recommendations.map((rec, index) => {
+            {recommendations.map((rec: Recommendation, index: number) => {
               const hasSavings = rec.savings > 0;
               return (
                 <div 

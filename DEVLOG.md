@@ -37,10 +37,33 @@
 - Auto-prefilling monthly spends based on retail prices significantly streamlines user onboarding, though we must preserve full custom input overrides.
 
 **Blockers / what I'm stuck on:**
-- None. Ready to move onto Day 3 calculations and audit report visual dashboards.
+- None. Day 2 tasks successfully completed.
 
 **Plan for tomorrow:**
 - Build the core audit engine logic (`rules.ts` and `calculations.ts` implementations).
 - Create the results page dashboard (`app/audit/[id]/page.tsx`) mapping savings metrics and customized plan alternatives.
 - Connect results with unique shareable tokens and custom Open Graph metadata.
+
+## Day 3 — 2026-05-21
+**Hours worked:** 4.5
+**What I did:**
+- Coded the complete deterministic business rules inside the Audit Engine (`lib/audit-engine/rules.ts`): redundant developer tools, single-user team plans, API retail markup conversions to Credex, and small-team enterprise overkill options.
+- Wrote 6 unit tests (`tests/audit-engine/rules.test.ts`) covering all rules, confirming 100% test coverage and correctness with Vitest.
+- Designed and built the results dashboard (`app/audit/[id]/page.tsx` and `components/audit-results-view.tsx`) with visual hero saving cards, custom lead gates, calendar consultation tools, and copy-link share triggers.
+- Programmed a dual database helper adapter (`lib/db-helper.ts`) that writes to Supabase DB or falls back cleanly to local workspace JSON files (`data/local_db.json`) if keys are absent.
+- Set up `/api/audit` and `/api/lead` API routes with request validation and transactional Resend email integrations.
+- Configured dynamic Open Graph and Twitter card SEO headers (`generateMetadata`) to display custom savings previews on shared links.
+- Verified clean Next.js build compilation and ESLint linter status.
+
+**What I learned:**
+- Integrating a local database fallback (like JSON files) prevents development environments from crashing when external keys are not configured, improving developer experience.
+- Next.js 15 App Router dynamic route parameters (like `params`) must be handled as Promises and awaited asynchronously to prevent production build compiler failures.
+
+**Blockers / what I'm stuck on:**
+- None. Day 3 scope completed.
+
+**Plan for tomorrow:**
+- Set up and run the Supabase database migrations on a live Supabase instance once user database credentials are provided.
+- Build manual verification scripts and verify transactional email delivery.
+
 

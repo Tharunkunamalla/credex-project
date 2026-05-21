@@ -1,12 +1,13 @@
 import { supabase } from "./supabase/client";
+import { AuditInput, AuditResult } from "./audit-engine/types";
 import fs from "fs";
 import path from "path";
 
 // Interfaces corresponding to the schema.sql definitions
 export interface AuditRecord {
   id: string;
-  inputs: any;
-  results: any;
+  inputs: AuditInput;
+  results: AuditResult;
   summary: string;
   share_token: string;
   created_at?: string;
