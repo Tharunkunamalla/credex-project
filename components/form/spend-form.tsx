@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { 
@@ -34,8 +35,10 @@ interface ToolDetails {
 const pricing: Record<string, ToolDetails> = pricingData.tools;
 
 export default function SpendForm() {
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   // Zustand Store
   const storeTools = useFormStore((state) => state.tools);
@@ -127,12 +130,31 @@ export default function SpendForm() {
 
   const onSubmit = async (data: AuditFormInput) => {
     setIsSubmitting(true);
-    console.log("Submitting stack spend data:", data);
-    // Simulate submission / API delay for Day 2 loading states
-    setTimeout(() => {
+    setSubmitError("");
+    try {
+      const response = await fetch("/api/audit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const resData = await response.json();
+      if (response.ok && resData.success) {
+        // Clear Zustand local storage form state upon successful submission
+        useFormStore.getState().resetForm();
+        // Redirect to audit results page
+        router.push(`/audit/${resData.auditId}`);
+      } else {
+        setSubmitError(resData.error || "Failed to calculate audit. Please try again.");
+      }
+    } catch (err) {
+      console.error("Form submission error:", err);
+      setSubmitError("An unexpected network error occurred. Please verify your connection.");
+    } finally {
       setIsSubmitting(false);
-      alert("Form submitted successfully! Audit engine logic calculations will process on Day 3.");
-    }, 1500);
+    }
   };
 
   if (!mounted) {
@@ -355,6 +377,13 @@ export default function SpendForm() {
                 </span>
               </div>
             </div>
+
+            {submitError && (
+              <div className="p-3 bg-red-500/10 border border-red-500/20 text-xs text-red-400 rounded-xl flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                <span>{submitError}</span>
+              </div>
+            )}
 
             {/* Run Audit Button */}
             <button
