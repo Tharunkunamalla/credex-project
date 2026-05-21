@@ -15,3 +15,14 @@ export const auditFormSchema = z.object({
 
 export type ToolFormInput = z.infer<typeof toolInputSchema>;
 export type AuditFormInput = z.infer<typeof auditFormSchema>;
+
+export const leadFormSchema = z.object({
+  email: z.string().email("A valid email address is required"),
+  companyName: z.string().min(1, "Company name is required"),
+  role: z.string().min(1, "Role is required"),
+  teamSize: z.number().int().min(1, "Team size must be at least 1").optional(),
+  auditId: z.string().uuid("Invalid audit UUID").optional().or(z.literal("")),
+});
+
+export type LeadFormInput = z.infer<typeof leadFormSchema>;
+
