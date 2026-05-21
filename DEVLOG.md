@@ -66,4 +66,23 @@
 - Set up and run the Supabase database migrations on a live Supabase instance once user database credentials are provided.
 - Build manual verification scripts and verify transactional email delivery.
 
+## Day 4 — 2026-05-21
+**Hours worked:** 1.5
+**What I did:**
+- Connected live Supabase database instance and verified table configurations for `audits` and `leads` tables.
+- Integrated and verified the Resend API credentials for automated email audit report dispatching.
+- Wrote and executed automated script tests validating both live database table read/writes and Resend domain access configurations.
+- Maintained a clean Git repository by ignoring environment keys and cleaning temporary test verification tools.
+
+**What I learned:**
+- Live integration confirmation using targeted test scripts in Vitest avoids manual page clicking during environment adjustments.
+
+**Blockers / what I'm stuck on:**
+- None. Day 4 database and email infrastructure tasks fully completed.
+
+**Plan for tomorrow:**
+- Trigger Vercel production deployment configurations.
+- Conduct final responsive layout validation and Lighthouse speed scoring.
+
+
 
