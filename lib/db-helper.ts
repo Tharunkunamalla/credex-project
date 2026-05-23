@@ -168,22 +168,51 @@ export async function saveLead(record: LeadRecord): Promise<LeadRecord> {
 
   if (supabase) {
     console.log("Supabase is configured. Writing lead to remote DB...");
-    const { data, error } = await supabase
+    
+    let finalAuditId: string | undefined = fullRecord.audit_id;
+    if (finalAuditId) {
+      // Validate UUID format
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      if (!uuidRegex.test(finalAuditId)) {
+        console.warn(`Audit ID ${finalAuditId} is not a valid UUID format. Setting to undefined to avoid insert failure.`);
+        finalAuditId = undefined;
+      } else {
+        // Verify the audit exists in the remote DB to prevent foreign key violations
+        try {
+          const { data: auditExists, error: existError } = await supabase
+            .from("audits")
+            .select("id")
+            .eq("id", finalAuditId)
+            .maybeSingle();
+
+          if (existError || !auditExists) {
+            console.warn(`Audit ID ${finalAuditId} was not found in the remote audits table. Setting to undefined to avoid foreign key failure.`);
+            finalAuditId = undefined;
+          }
+        } catch (e) {
+          console.error("Error verifying audit existence in remote DB:", e);
+          finalAuditId = undefined;
+        }
+      }
+    }
+
+    // Perform insert without .select().single() because the RLS policy forbids public reads (SELECT)
+    // of the leads table, which would cause RETURNING statements to fail with PGRST116 (0 rows returned).
+    const { error } = await supabase
       .from("leads")
       .insert({
         email: fullRecord.email,
         company_name: fullRecord.company_name,
         role: fullRecord.role,
         team_size: fullRecord.team_size,
-        audit_id: fullRecord.audit_id
-      })
-      .select()
-      .single();
+        audit_id: finalAuditId
+      });
 
     if (error) {
       console.error("Supabase insert error for lead, falling back to local storage:", error);
-    } else if (data) {
-      return data as LeadRecord;
+    } else {
+      console.log("Lead inserted successfully into remote DB.");
+      return fullRecord;
     }
   }
 

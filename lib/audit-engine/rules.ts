@@ -227,6 +227,17 @@ export function auditTool(toolInput: ToolInput, auditInput: AuditInput): Recomme
     return recommendation;
   }
 
+  // Baseline validation: Check if they are overpaying compared to the retail price of their current plan
+  const expectedSpend = planConfig.isFlatRate 
+    ? planConfig.pricePerSeat 
+    : planConfig.pricePerSeat * Math.max(seats, planConfig.minSeats || 1);
+
+  if (!planConfig.isFlatRate && monthlySpend > expectedSpend) {
+    recommendation.recommendedSpend = expectedSpend;
+    recommendation.savings = Math.round((monthlySpend - expectedSpend) * 100) / 100;
+    recommendation.reason = `You are paying $${monthlySpend}/mo, but the standard retail price for ${seats} ${seats === 1 ? "seat" : "seats"} of ${toolName} ${planConfig.name} is $${expectedSpend}/mo. Check your billing details for redundant add-ons or incorrect configurations.`;
+  }
+
   return recommendation;
 }
 

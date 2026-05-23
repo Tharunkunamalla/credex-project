@@ -106,4 +106,24 @@ describe("StackSpend Audit Engine Rules", () => {
     expect(rec.recommendedAction).toBe("switch_alternative");
     expect(rec.recommendedPlan).toBe("Claude Pro");
   });
+
+  it("should calculate savings when user's manual spend is higher than retail price", () => {
+    const input: AuditInput = {
+      tools: [
+        { toolId: "cursor", planId: "pro", seats: 1, monthlySpend: 110 }
+      ],
+      teamSize: 4,
+      useCase: "coding"
+    };
+
+    const result = runAudit(input);
+    expect(result.totalCurrentSpend).toBe(110);
+    expect(result.totalRecommendedSpend).toBe(20); // Retail is $20
+    expect(result.totalMonthlySavings).toBe(90); // $110 - $20
+    expect(result.totalAnnualSavings).toBe(1080);
+    const rec = result.recommendations[0];
+    expect(rec.recommendedAction).toBe("keep_plan");
+    expect(rec.savings).toBe(90);
+    expect(rec.reason).toContain("standard retail price");
+  });
 });
