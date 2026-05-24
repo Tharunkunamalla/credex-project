@@ -1,25 +1,27 @@
-import { NextResponse } from "next/server";
-import { leadFormSchema } from "../../../lib/validations/audit";
-import { saveLead, getAudit } from "../../../lib/db-helper";
+import {NextResponse} from "next/server";
+import {leadFormSchema} from "../../../lib/validations/audit";
+import {saveLead, getAudit} from "../../../lib/db-helper";
+
+export const runtime = "nodejs";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    
+
     // Validate lead form inputs
     const parseResult = leadFormSchema.safeParse(body);
     if (!parseResult.success) {
       return NextResponse.json(
-        { 
-          success: false, 
-          error: "Invalid input data", 
-          details: parseResult.error.flatten().fieldErrors 
+        {
+          success: false,
+          error: "Invalid input data",
+          details: parseResult.error.flatten().fieldErrors,
         },
-        { status: 400 }
+        {status: 400},
       );
     }
 
-    const { email, companyName, role, teamSize, auditId } = parseResult.data;
+    const {email, companyName, role, teamSize, auditId} = parseResult.data;
 
     // Save lead record in DB
     const savedLead = await saveLead({
@@ -27,14 +29,14 @@ export async function POST(request: Request) {
       company_name: companyName,
       role,
       team_size: teamSize,
-      audit_id: auditId || undefined
+      audit_id: auditId || undefined,
     });
 
     // Check if we need to send email via Resend API
     const resendKey = process.env.RESEND_API_KEY;
     if (resendKey) {
       console.log("Resend API Key found. Sending transactional email...");
-      
+
       // Fetch details of audit if available to customize email
       let auditDetailsText = "";
       if (auditId) {
@@ -51,8 +53,8 @@ export async function POST(request: Request) {
       const emailResponse = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${resendKey}`,
-          "Content-Type": "application/json"
+          Authorization: `Bearer ${resendKey}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           from: "StackSpend <onboarding@resend.dev>",
@@ -70,27 +72,31 @@ export async function POST(request: Request) {
                 StackSpend is a free tool powered by Credex to help startups maximize their runway. To claim discounted AI credits or run a deeper infrastructure audit, reply to this email or visit <a href="https://credex.rocks">credex.rocks</a>.
               </p>
             </div>
-          `
-        })
+          `,
+        }),
       });
 
       if (!emailResponse.ok) {
-        console.error("Resend API returned failure status:", await emailResponse.text());
+        console.error(
+          "Resend API returned failure status:",
+          await emailResponse.text(),
+        );
       }
     } else {
-      console.warn("No RESEND_API_KEY environment variable set. Transactional email skipped.");
+      console.warn(
+        "No RESEND_API_KEY environment variable set. Transactional email skipped.",
+      );
     }
 
     return NextResponse.json({
       success: true,
-      lead: savedLead
+      lead: savedLead,
     });
-
   } catch (error) {
     console.error("API Lead Route Error:", error);
     return NextResponse.json(
-      { success: false, error: "Internal server error" },
-      { status: 500 }
+      {success: false, error: "Internal server error"},
+      {status: 500},
     );
   }
 }

@@ -1,15 +1,17 @@
 import React from "react";
-import { notFound } from "next/navigation";
-import { getAudit } from "../../../lib/db-helper";
+import {notFound} from "next/navigation";
+import {getAudit} from "../../../lib/db-helper";
 import AuditResultsView from "../../../components/audit-results-view";
 
+export const runtime = "nodejs";
+
 interface PageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{id: string}>;
 }
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({params}: PageProps) {
   try {
-    const { id } = await params;
+    const {id} = await params;
     const audit = await getAudit(id);
 
     if (!audit || !audit.results) {
@@ -53,8 +55,8 @@ export async function generateMetadata({ params }: PageProps) {
   }
 }
 
-export default async function AuditPage({ params }: PageProps) {
-  const { id } = await params;
+export default async function AuditPage({params}: PageProps) {
+  const {id} = await params;
   const audit = await getAudit(id);
 
   if (!audit) {
